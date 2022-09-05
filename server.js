@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
-const { randomUUID } = require("crypto");
+const notesDb = require("./db/db.json");
 
 const PORT = 3001;
 
@@ -12,49 +12,41 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static("public"));
 
+rand_id = () =>
+  Math.floor((1 + Math.random()) * 0x10000)
+    .toString(16)
+    .substring(1);
+
 // route to home page
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "/public/index.html"));
 });
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "/public/index.html"));
-// });
 
 // route to notes page
 app.get("/notes", (req, res) => {
   res.sendFile(path.join(__dirname, "/public/notes.html"));
 });
 
-// // get route for the get request in the getNotes() function in index.js
-// app.get("/api/notes", (req, res) => {
-//   console.log(`${req.method} request received`);
-//   //TODO: should read the db.json file and return all saved notes as JSON
-// });
+// get route for the get request in the getNotes() function in index.js
+app.get("/api/notes", (req, res) => {
+  res.json(notesDb);
+});
 
 // post route for the post request in the saveNote() function in index.js
 app.post("/api/notes", (req, res) => {
-  console.log(`${req.method} request received`);
-  //TODO: should return the new note to the client ??
   noteObj = req.body;
   const { title, text } = noteObj;
   const newNote = {
     title,
     text,
-    note_id: 8, // TODO: come back to this with uuid()
+    id: rand_id(),
   };
-  fs.readFile("./db/db.json", "utf8", (err, data) => {
+  notesDb.push(newNote);
+  fs.writeFile("./db/db.json", JSON.stringify(notesDb), (err) => {
     if (err) {
       console.log(err);
     } else {
-      const noteArray = JSON.parse(data);
-      noteArray.push(newNote);
-      fs.writeFile("./db/db.json", JSON.stringify(noteArray), (err) => {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log("Added new note.");
-        }
-      });
+      console.log("Added new note.");
     }
   });
 });

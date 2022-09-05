@@ -53,7 +53,6 @@ const deleteNote = (id) =>
 
 const renderActiveNote = () => {
   hide(saveNoteBtn);
-
   if (activeNote.id) {
     noteTitle.setAttribute("readonly", true);
     noteText.setAttribute("readonly", true);
@@ -76,6 +75,7 @@ const handleNoteSave = () => {
     getAndRenderNotes();
     renderActiveNote();
   });
+  location.reload();
 };
 
 // Delete the clicked note
@@ -118,8 +118,10 @@ const handleRenderSaveBtn = () => {
 };
 
 // Render the list of note titles
+// notes is an array of objects
 const renderNoteList = async (notes) => {
   let jsonNotes = await notes.json();
+  // console.log(jsonNotes); // returns array of note objects
   if (window.location.pathname === "/notes") {
     noteList.forEach((el) => (el.innerHTML = ""));
   }
@@ -160,6 +162,7 @@ const renderNoteList = async (notes) => {
   }
 
   jsonNotes.forEach((note) => {
+    // for each note object
     const li = createLi(note.title);
     li.dataset.note = JSON.stringify(note);
 
