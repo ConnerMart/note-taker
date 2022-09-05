@@ -51,6 +51,28 @@ app.post("/api/notes", (req, res) => {
   });
 });
 
+// // delete route to remove a note
+// app.delete(`/api/notes/:id`, (req, res) => {
+//   fs.readFile("./db/db.json", "utf8", (err, data) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       for (let i = 0; i < notesDb.length; i++) {
+//         if (notesDb[i].id === JSON.stringify(req.params.id)) {
+//           notesDb.splice(i, 1);
+//           fs.writeFile("./db/db.json", JSON.stringify(notesDb), (err) => {
+//             if (err) {
+//               console.log(err);
+//             } else {
+//               res.send(200);
+//             }
+//           });
+//         }
+//       }
+//     }
+//   });
+// });
+
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}...`);
 });
