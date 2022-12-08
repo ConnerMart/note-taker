@@ -19,7 +19,7 @@ rand_id = () =>
 
 // route to home page
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "/public/index.html"));
+  res.sendFile(path.join(__dirname, "/index.html"));
 });
 
 // route to notes page
