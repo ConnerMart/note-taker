@@ -4,7 +4,7 @@ An application that allows the user to enter notes. Notes are saved to a JSON fi
 
 ![screenshot of the deployed application](./public/assets/note-taker-screenshot.png)
 
-[Link](https://nodejs.org/en/) to deployed application.
+[Link](https://connermart.github.io/note-taker/) to deployed application.
 
 This application uses:  
 [Node](https://nodejs.org/en/)  
